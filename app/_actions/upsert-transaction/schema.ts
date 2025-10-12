@@ -7,7 +7,7 @@ import { z } from "zod";
 
 // validando os parâmetros da rota http
 
-export const addTransactionSchema = z.object({
+export const upsertTransactionSchema = z.object({
   name: z.string().min(1),
   amount: z.number().positive(),
   type: z.nativeEnum(TransactionType),

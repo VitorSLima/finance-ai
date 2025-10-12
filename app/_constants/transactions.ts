@@ -4,19 +4,23 @@ import {
   TransactionType,
 } from "@prisma/client";
 
-export const TRANSACTION_CATEGORY_LABELS = {
-  EDUCATION: "Educação",
-  ENTERTAINMENT: "Entretenimento",
-  FOOD: "Alimentação",
-  HEALTH: "Saúde",
-  HOUSING: "Moradia",
-  OTHER: "Outro",
-  SALARY: "Salário",
-  TRANSPORTATION: "Transporte",
-  UTILITY: "Utilidade",
-};
+export const TRANSACTION_CATEGORY_LABELS: Record<TransactionCategory, string> =
+  {
+    EDUCATION: "Educação",
+    ENTERTAINMENT: "Entretenimento",
+    FOOD: "Alimentação",
+    HEALTH: "Saúde",
+    HOUSING: "Moradia",
+    OTHER: "Outro",
+    SALARY: "Salário",
+    TRANSPORTATION: "Transporte",
+    UTILITY: "Utilidade",
+  };
 
-export const TRANSACTION_PAYMENT_METHOD_LABELS = {
+export const TRANSACTION_PAYMENT_METHOD_LABELS: Record<
+  TransactionPaymentMethod,
+  string
+> = {
   BANK_TRANSFER: "Transferência bancária",
   BANK_SLIP: "Boleto Bancário",
   CASH: "Dinheiro",

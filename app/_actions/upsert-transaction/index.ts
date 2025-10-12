@@ -2,7 +2,7 @@
 
 import { db } from "../../_lib/prisma";
 import { auth } from "@clerk/nextjs/server";
-import { addTransactionSchema } from "./schema";
+import { upsertTransactionSchema } from "./schema";
 import {
   TransactionCategory,
   TransactionPaymentMethod,
@@ -12,7 +12,8 @@ import { revalidatePath } from "next/cache";
 
 // server actions DEVEM ter seus parâmetros validados por ser uma rota http.
 
-interface AddTransactionParams {
+interface UpsertTransactionParams {
+  id?: string;
   name: string;
   amount: number;
   type: TransactionType;
@@ -21,15 +22,19 @@ interface AddTransactionParams {
   date: Date;
 }
 
-export const addTransaction = async (params: AddTransactionParams) => {
+export const upsertTransaction = async (params: UpsertTransactionParams) => {
   // SE a validação falhar, o Zod lançará uma exceção
-  addTransactionSchema.parse(params);
+  upsertTransactionSchema.parse(params);
   const { userId } = await auth();
   if (!userId) {
     throw new Error("Unauthorized");
   }
-  await db.transaction.create({
-    data: { ...params, userId },
+  await db.transaction.upsert({
+    where: {
+      id: params.id,
+    },
+    update: { ...params, userId },
+    create: { ...params, userId },
   });
 
   revalidatePath("/transactions");
